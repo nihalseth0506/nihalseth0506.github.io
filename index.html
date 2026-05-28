@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nihal Sanjay Seth — Mechatronics & Robotics Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cyan: #00e5ff;
+    --cyan-dim: #00b8cc;
+    --cyan-glow: rgba(0,229,255,0.15);
+    --amber: #ffb300;
+    --amber-dim: #e6a000;
+    --bg: #06090f;
+    --bg2: #0a0e18;
+    --bg3: #0d1220;
+    --line: rgba(0,229,255,0.18);
+    --text: #c8d8e8;
+    --text-dim: #6a8099;
+    --text-bright: #e8f4ff;
+    --danger: #ff4060;
+    --green: #00ff88;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── BACKGROUND GRID ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── SCANLINES ─── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.04) 2px,
+      rgba(0,0,0,0.04) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(6,9,15,0.92);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3rem;
+    height: 56px;
+  }
+
+  .nav-logo {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .nav-logo span { color: var(--amber); }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 1px;
+    background: var(--cyan);
+    transform: scaleX(0);
+    transition: transform 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--cyan); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  .nav-status {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--green);
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse-dot 2s infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%,100% { opacity:1; box-shadow: 0 0 4px var(--green); }
+    50% { opacity:0.4; box-shadow: none; }
+  }
+
+  /* ─── SECTION WRAPPER ─── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 6rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--cyan);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    opacity: 0.8;
+  }
+
+  .section-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+    position: relative;
+    padding-bottom: 1rem;
+  }
+
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 60px; height: 2px;
+    background: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan);
+  }
+
+  /* ─── HUD CARD ─── */
+  .hud-card {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    position: relative;
+    padding: 1.5rem;
+    transition: border-color 0.3s;
+  }
+
+  .hud-card::before,
+  .hud-card::after,
+  .hud-card .corner-br,
+  .hud-card .corner-tl-inner {
+    content: '';
+    position: absolute;
+    width: 12px; height: 12px;
+  }
+
+  .hud-card::before {
+    top: -1px; left: -1px;
+    border-top: 2px solid var(--cyan);
+    border-left: 2px solid var(--cyan);
+  }
+
+  .hud-card::after {
+    bottom: -1px; right: -1px;
+    border-bottom: 2px solid var(--cyan);
+    border-right: 2px solid var(--cyan);
+  }
+
+  .hud-card:hover {
+    border-color: rgba(0,229,255,0.35);
+    background: var(--bg3);
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem;
+    max-width: 100%;
+    position: relative;
+  }
+
+  .hero-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--cyan);
+    letter-spacing: 0.3em;
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+  }
+
+  .hero-name {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(2.4rem, 5vw, 4.5rem);
+    font-weight: 900;
+    color: var(--text-bright);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-name span {
+    color: var(--cyan);
+    text-shadow: 0 0 30px rgba(0,229,255,0.5);
+  }
+
+  .hero-subtitle {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(0.9rem, 1.8vw, 1.3rem);
+    font-weight: 400;
+    color: var(--amber);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .hero-typing {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem;
+    color: var(--cyan);
+    min-height: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-typing::after {
+    content: '█';
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  .hero-meta {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+
+  .hero-meta-item {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hero-meta-item span { color: var(--text); }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--cyan);
+    border: none;
+    padding: 0.85rem 2rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .btn-primary:hover {
+    background: var(--text-bright);
+    box-shadow: 0 0 20px rgba(0,229,255,0.4);
+  }
+
+  .btn-ghost {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    background: transparent;
+    border: 1px solid var(--cyan);
+    padding: 0.85rem 2rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .btn-ghost:hover {
+    background: var(--cyan-glow);
+    box-shadow: 0 0 20px rgba(0,229,255,0.2);
+  }
+
+  /* Hero decorative right panel */
+  .hero-hud-panel {
+    position: absolute;
+    right: 6rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 260px;
+    opacity: 0.5;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .hud-readout {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--cyan);
+    letter-spacing: 0.1em;
+    border-left: 2px solid var(--line);
+    padding-left: 0.75rem;
+    line-height: 1.8;
+  }
+
+  .hud-bar-wrap { display: flex; flex-direction: column; gap: 6px; }
+  .hud-bar-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .hud-bar {
+    height: 3px;
+    background: rgba(0,229,255,0.1);
+    position: relative;
+  }
+
+  .hud-bar-fill {
+    height: 100%;
+    background: var(--cyan);
+    box-shadow: 0 0 6px var(--cyan);
+  }
+
+  /* ─── ABOUT ─── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .highlight-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border: 1px solid var(--line);
+    color: var(--cyan);
+    background: rgba(0,229,255,0.05);
+    text-transform: uppercase;
+  }
+
+  .about-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .stat-box {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    padding: 1rem 1.25rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .stat-box::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 10px; height: 10px;
+    border-top: 2px solid var(--amber);
+    border-left: 2px solid var(--amber);
+  }
+
+  .stat-number {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--amber);
+    display: block;
+  }
+
+  .stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* ─── SKILLS ─── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-category {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    padding: 1.5rem;
+    position: relative;
+  }
+
+  .skill-category::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 12px; height: 12px;
+    border-top: 2px solid var(--cyan);
+    border-left: 2px solid var(--cyan);
+  }
+
+  .skill-cat-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .skill-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.75rem;
+  }
+
+  .skill-dot {
+    width: 5px; height: 5px;
+    background: var(--cyan);
+    flex-shrink: 0;
+    box-shadow: 0 0 6px var(--cyan);
+  }
+
+  .skill-name {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--text);
+    flex: 1;
+    letter-spacing: 0.05em;
+  }
+
+  .skill-bar-outer {
+    width: 80px;
+    height: 3px;
+    background: rgba(0,229,255,0.1);
+  }
+
+  .skill-bar-inner {
+    height: 100%;
+    background: var(--cyan);
+    box-shadow: 0 0 6px rgba(0,229,255,0.6);
+    transition: width 1s ease;
+  }
+
+  /* ─── PROJECTS ─── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    padding: 1.75rem;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 14px; height: 14px;
+    border-top: 2px solid var(--cyan);
+    border-left: 2px solid var(--cyan);
+  }
+
+  .project-card::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; right: -1px;
+    width: 14px; height: 14px;
+    border-bottom: 2px solid var(--cyan);
+    border-right: 2px solid var(--cyan);
+  }
+
+  .project-card:hover {
+    border-color: rgba(0,229,255,0.4);
+    background: var(--bg3);
+    transform: translateY(-2px);
+  }
+
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+    gap: 1rem;
+  }
+
+  .project-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .project-date {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    border: 1px solid rgba(255,179,0,0.3);
+    padding: 2px 8px;
+    background: rgba(255,179,0,0.05);
+    flex-shrink: 0;
+  }
+
+  .project-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--cyan);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+
+  .project-body {
+    font-size: 0.92rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  .project-body ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .project-body li {
+    padding-left: 1rem;
+    position: relative;
+    margin-bottom: 0.4rem;
+    font-size: 0.88rem;
+  }
+
+  .project-body li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--cyan);
+    font-size: 0.7rem;
+  }
+
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 1rem;
+  }
+
+  .tech-chip {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+    border: 1px solid rgba(0,229,255,0.2);
+    color: var(--cyan);
+    background: rgba(0,229,255,0.04);
+    text-transform: uppercase;
+  }
+
+  .project-link {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--amber);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 0.75rem;
+    transition: color 0.2s;
+  }
+
+  .project-link:hover { color: var(--text-bright); }
+
+  /* ─── EXPERIENCE TIMELINE ─── */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 0;
+    width: 1px;
+    background: var(--line);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -2.5rem;
+    top: 6px;
+    width: 10px; height: 10px;
+    border: 2px solid var(--cyan);
+    background: var(--bg);
+    box-shadow: 0 0 8px var(--cyan);
+  }
+
+  .timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.25rem;
+    gap: 1rem;
+  }
+
+  .timeline-role {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .timeline-period {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .timeline-org {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--cyan);
+    letter-spacing: 0.12em;
+    margin-bottom: 0.75rem;
+    opacity: 0.9;
+  }
+
+  .timeline-body ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .timeline-body li {
+    padding-left: 1rem;
+    position: relative;
+    margin-bottom: 0.35rem;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .timeline-body li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--cyan);
+    font-size: 0.65rem;
+    top: 3px;
+  }
+
+  /* ─── EDUCATION ─── */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .edu-card {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    padding: 1.75rem;
+    position: relative;
+  }
+
+  .edu-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 14px; height: 14px;
+    border-top: 2px solid var(--amber);
+    border-left: 2px solid var(--amber);
+  }
+
+  .edu-degree {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .edu-institution {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--cyan);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+  }
+
+  .edu-meta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .edu-badge {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    border: 1px solid var(--line);
+    padding: 3px 8px;
+  }
+
+  .edu-badge.highlight {
+    color: var(--amber);
+    border-color: rgba(255,179,0,0.3);
+    background: rgba(255,179,0,0.05);
+  }
+
+  /* ─── PUBLICATIONS ─── */
+  .pub-list { display: flex; flex-direction: column; gap: 1.25rem; }
+
+  .pub-card {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    padding: 1.5rem;
+    position: relative;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .pub-icon {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--bg);
+    background: var(--cyan);
+    padding: 4px 8px;
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+  }
+
+  .pub-icon.patent { background: var(--amber); }
+
+  .pub-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin-bottom: 0.3rem;
+  }
+
+  .pub-meta {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+
+  .pub-desc {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .pub-link {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--cyan);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+
+  .pub-link:hover { color: var(--amber); }
+
+  /* ─── EXTRACURRICULAR ─── */
+  .extra-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .extra-card {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    padding: 2rem;
+    position: relative;
+    text-align: center;
+    transition: all 0.3s;
+  }
+
+  .extra-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 14px; height: 14px;
+    border-top: 2px solid var(--cyan);
+    border-left: 2px solid var(--cyan);
+  }
+
+  .extra-card::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; right: -1px;
+    width: 14px; height: 14px;
+    border-bottom: 2px solid var(--cyan);
+    border-right: 2px solid var(--cyan);
+  }
+
+  .extra-card:hover { border-color: rgba(0,229,255,0.4); background: var(--bg3); }
+
+  .extra-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .extra-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .extra-desc {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .extra-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  /* ─── CERTS ─── */
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .cert-item {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text);
+    letter-spacing: 0.05em;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid var(--line);
+    background: var(--bg2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cert-dot {
+    width: 5px; height: 5px;
+    background: var(--green);
+    flex-shrink: 0;
+    box-shadow: 0 0 5px var(--green);
+  }
+
+  /* ─── CONTACT ─── */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+
+  .contact-item {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    padding: 1.25rem;
+    position: relative;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: block;
+  }
+
+  .contact-item:hover { border-color: rgba(0,229,255,0.4); background: var(--bg3); }
+
+  .contact-item::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 10px; height: 10px;
+    border-top: 2px solid var(--cyan);
+    border-left: 2px solid var(--cyan);
+  }
+
+  .contact-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .contact-value {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--cyan);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 3rem;
+    border-top: 1px solid var(--line);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── DIVIDER ─── */
+  .hud-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0.5rem 0 2.5rem;
+  }
+
+  .hud-divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .hud-divider-diamond {
+    width: 6px; height: 6px;
+    background: var(--cyan);
+    transform: rotate(45deg);
+    box-shadow: 0 0 8px var(--cyan);
+    flex-shrink: 0;
+  }
+
+  /* ─── TRAINING SECTION ─── */
+  .training-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .training-card {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    padding: 1.5rem;
+    position: relative;
+  }
+
+  .training-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 12px; height: 12px;
+    border-top: 2px solid var(--green);
+    border-left: 2px solid var(--green);
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .nav-links a { font-size: 0.62rem; }
+    section { padding: 4rem 1.5rem 2.5rem; }
+    #hero { padding: 4rem 1.5rem; }
+    .hero-hud-panel { display: none; }
+    .about-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .training-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">N<span>.</span>Seth</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#extra">Life</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-status">
+    <div class="status-dot"></div>
+    SYSTEM ONLINE
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div style="max-width:700px">
+    <div class="hero-tag">// INITIALIZING PORTFOLIO_v2026.1 //</div>
+    <div class="hero-name">NIHAL<br><span>SANJAY SETH</span></div>
+    <div class="hero-subtitle">Mechatronics &amp; Robotics Engineer</div>
+    <div class="hero-typing" id="hero-typing"></div>
+    <div class="hero-meta">
+      <div class="hero-meta-item">📍 <span>Schmalkalden, Germany</span></div>
+      <div class="hero-meta-item">🎓 <span>M.Eng. — Hochschule Schmalkalden</span></div>
+      <div class="hero-meta-item">🌐 <span>English (Fluent) · German B1→B2</span></div>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-ghost">Get In Touch</a>
+    </div>
+  </div>
+
+  <!-- Decorative HUD Panel -->
+  <div class="hero-hud-panel">
+    <div class="hud-readout">
+      &gt; SPECIALIZATION_MATRIX<br>
+      &gt; VISION_ROBOTICS........OK<br>
+      &gt; ROS2_SYSTEMS............OK<br>
+      &gt; MATLAB_SIMULINK.........OK<br>
+      &gt; EMBEDDED_CONTROL........OK<br>
+      &gt; PERCEPTION_ML..........ACTIVE
+    </div>
+    <div style="height:1px; background: var(--line);"></div>
+    <div class="hud-bar-wrap">
+      <div class="hud-bar-label"><span>ROBOTICS</span><span>95%</span></div>
+      <div class="hud-bar"><div class="hud-bar-fill" style="width:95%"></div></div>
+    </div>
+    <div class="hud-bar-wrap">
+      <div class="hud-bar-label"><span>SIMULATION</span><span>88%</span></div>
+      <div class="hud-bar"><div class="hud-bar-fill" style="width:88%"></div></div>
+    </div>
+    <div class="hud-bar-wrap">
+      <div class="hud-bar-label"><span>EMBEDDED</span><span>82%</span></div>
+      <div class="hud-bar"><div class="hud-bar-fill" style="width:82%"></div></div>
+    </div>
+    <div class="hud-bar-wrap">
+      <div class="hud-bar-label"><span>ML / VISION</span><span>78%</span></div>
+      <div class="hud-bar"><div class="hud-bar-fill" style="width:78%"></div></div>
+    </div>
+    <div style="height:1px; background: var(--line);"></div>
+    <div class="hud-readout">
+      &gt; STATUS: SEEKING WERKSTUDENT<br>
+      &gt; THESIS POSITIONS OPEN<br>
+      &gt; INTERNSHIP READY
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">&gt; SYSTEM.PROFILE</div>
+  <div class="section-title">About Me</div>
+  <div class="hud-divider"><div class="hud-divider-line"></div><div class="hud-divider-diamond"></div><div class="hud-divider-line"></div></div>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>Master's student in Mechatronics &amp; Robotics at Hochschule Schmalkalden with hands-on experience in vision-guided robotics, real-time robot control, and simulation. I build systems that work — from a UR10e visual servoing rig to an energy-optimised 6-DOF UR5 control framework.</p>
+      <p>My engineering philosophy is grounded in honest, defensible implementation: I'd rather quantify exactly what a system does than overstate what it might do. Whether it's tuning PID loops on a self-built pen plotter or architecting a FastAPI telemetry pipeline, I focus on measurable outcomes and solid fundamentals.</p>
+      <p>Beyond robotics, I'm fascinated by photonic computing and its intersection with optical sensing — a long-term research interest I'm actively exploring alongside my core work in embedded systems and control.</p>
+      <div class="highlight-tags">
+        <span class="tag">Vision-Guided Robotics</span>
+        <span class="tag">ROS2</span>
+        <span class="tag">MATLAB/Simulink</span>
+        <span class="tag">Embedded Systems</span>
+        <span class="tag">Control Systems</span>
+        <span class="tag">PLC Automation</span>
+        <span class="tag">Gazebo Simulation</span>
+        <span class="tag">Photonic Computing</span>
+      </div>
+    </div>
+    <div class="about-stats">
+      <div class="stat-box">
+        <span class="stat-number">4+</span>
+        <span class="stat-label">Years Engineering<br>Experience</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-number">10</span>
+        <span class="stat-label">Competition<br>Awards</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-number">1</span>
+        <span class="stat-label">Design Patent<br>Accepted</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-number">1</span>
+        <span class="stat-label">Published Research<br>Paper</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">&gt; CAPABILITY.MATRIX</div>
+  <div class="section-title">Technical Skills</div>
+  <div class="hud-divider"><div class="hud-divider-line"></div><div class="hud-divider-diamond"></div><div class="hud-divider-line"></div></div>
+  <div class="skills-grid reveal">
+
+    <div class="skill-category">
+      <div class="skill-cat-title">⚙ Simulation &amp; Middleware</div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">MATLAB / Simulink</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:95%"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">ROS2</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:90%"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">Gazebo</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:80%"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">ANSYS</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:78%"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">UR Robots RTDE</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:85%"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">FluidSIM / KissSoft</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:70%"></div></div></div>
+    </div>
+
+    <div class="skill-category">
+      <div class="skill-cat-title">💻 Programming &amp; ML</div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">Python</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:88%"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">C / C++</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:82%"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">MATLAB</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:92%"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">OpenCV</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:82%"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">YOLO (Custom Training)</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:78%"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">FastAPI / PostgreSQL</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:75%"></div></div></div>
+    </div>
+
+    <div class="skill-category">
+      <div class="skill-cat-title">🔌 Embedded &amp; Control</div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">ESP32 / Arduino</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:88%"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">PLC — Siemens TIA Portal</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:72%"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">PID Control</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:85%"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">Ladder / FBD Programming</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:70%"></div></div></div>
+    </div>
+
+    <div class="skill-category">
+      <div class="skill-cat-title">🖊 CAD &amp; Tools</div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">SolidWorks</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:90%"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">Autodesk Inventor / Fusion</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:78%"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">Git</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:85%"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">Streamlit / Fritzing</span><div class="skill-bar-outer"><div class="skill-bar-inner" style="width:72%"></div></div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">&gt; MISSION.LOG</div>
+  <div class="section-title">Technical Projects</div>
+  <div class="hud-divider"><div class="hud-divider-line"></div><div class="hud-divider-diamond"></div><div class="hud-divider-line"></div></div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div class="project-title">Vision-Guided Pick-and-Place &amp; Industrial Monitoring System</div>
+        <div class="project-date">04/2026 – PRESENT</div>
+      </div>
+      <div class="project-sub">HOCHSCHULE SCHMALKALDEN, GERMANY</div>
+      <div class="project-body">
+        <p style="margin-bottom:0.5rem; font-size:0.78rem; color:var(--cyan); font-family:'Share Tech Mono',monospace; letter-spacing:0.08em;">PART 1 — AUTONOMOUS VISUAL SERVOING &amp; PICK-AND-PLACE</p>
+        <ul>
+          <li>Built a vision-guided pick-and-place system on a UR10e; trained a custom YOLO model integrated with Intel RealSense D435i for real-time part localization and pose classification.</li>
+          <li>Implemented image-space visual servoing for closed-loop TCP alignment using UR Robots RTDE for hardware-level control.</li>
+          <li>Developed OpenCV-based orientation estimation using contour analysis and bounding-box geometry for automatic wrist alignment.</li>
+          <li>Progressed to full pick-and-place sequences; conducting cycle time analysis to benchmark throughput.</li>
+        </ul>
+        <p style="margin: 0.75rem 0 0.5rem; font-size:0.78rem; color:var(--amber); font-family:'Share Tech Mono',monospace; letter-spacing:0.08em;">PART 2 — INDUSTRIAL TELEMETRY PLATFORM ("FACTORY COPILOT")</p>
+        <ul>
+          <li>Developed modular telemetry platform using FastAPI, PostgreSQL, and Streamlit for real-time factory monitoring and anomaly detection.</li>
+          <li>Architected distributed workflow separating robot execution, telemetry ingestion, analytics, and visualization.</li>
+        </ul>
+      </div>
+      <div class="project-tech">
+        <span class="tech-chip">UR10e</span><span class="tech-chip">RealSense D435i</span><span class="tech-chip">YOLO</span><span class="tech-chip">OpenCV</span><span class="tech-chip">RTDE</span><span class="tech-chip">FastAPI</span><span class="tech-chip">PostgreSQL</span><span class="tech-chip">Streamlit</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div class="project-title">Project AURA — Energy-Optimized Robotic Actuation</div>
+        <div class="project-date">02/2026 – 03/2026</div>
+      </div>
+      <div class="project-sub">MATLAB / SIMULINK · ROS2 · PYTHON</div>
+      <div class="project-body">
+        <ul>
+          <li>Built a 6-DOF UR5 dynamic model with FK, Jacobian-based IK, and full inverse dynamics (Coriolis &amp; gravity).</li>
+          <li>Implemented singularity-robust Cartesian control using Adaptive Damped Least Squares.</li>
+          <li>Designed payload-aware inverse dynamics framework; quantified 30% increase in actuation demand under 5 kg load.</li>
+          <li>Developed ROS2 real-time control pipeline achieving &lt;2 cm tracking error with validated sim-to-execution consistency.</li>
+          <li>Modular Simulink architecture with Git-based version control across v1.0–v6.0.</li>
+        </ul>
+      </div>
+      <div class="project-tech">
+        <span class="tech-chip">MATLAB/Simulink</span><span class="tech-chip">ROS2</span><span class="tech-chip">Python</span><span class="tech-chip">6-DOF Dynamics</span><span class="tech-chip">Inverse Dynamics</span>
+      </div>
+      <a href="https://github.com/nihalseth0506/project_aura_ur5" class="project-link">▸ GitHub: Project AURA UR5</a>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div class="project-title">ROS2 Mobile Robot with Manipulator &amp; Vision-Based Control</div>
+        <div class="project-date">04/2026</div>
+      </div>
+      <div class="project-sub">GAZEBO · RVIZ · PYTHON</div>
+      <div class="project-body">
+        <ul>
+          <li>Designed and simulated a mobile robot with a 2-DOF manipulator using ROS2, URDF/Xacro, Gazebo, and RViz.</li>
+          <li>Implemented differential drive navigation and joint position control via ROS2 topics and Gazebo plugins.</li>
+          <li>Developed vision pipeline using OpenCV (HSV-based colour segmentation) for real-time object detection.</li>
+          <li>Built modular Python control system using a finite state machine for autonomous search, alignment, and approach.</li>
+        </ul>
+      </div>
+      <div class="project-tech">
+        <span class="tech-chip">ROS2</span><span class="tech-chip">Gazebo</span><span class="tech-chip">RViz</span><span class="tech-chip">URDF/Xacro</span><span class="tech-chip">OpenCV</span><span class="tech-chip">FSM</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div class="project-title">Pen Plotter (Master's Project)</div>
+        <div class="project-date">11/2024 – 07/2025</div>
+      </div>
+      <div class="project-sub">ESP32 · C · SOLIDWORKS · ARDUINO IDE</div>
+      <div class="project-body">
+        <ul>
+          <li>Designed and built a 3-axis pen plotter frame in SolidWorks for high precision and structural stability.</li>
+          <li>Developed electrical schematic in Fritzing and programmed motion control on ESP32 with PID tuning.</li>
+          <li>Achieved smooth plotting accuracy and reliable homing through tuned PID control and safety integration.</li>
+        </ul>
+      </div>
+      <div class="project-tech">
+        <span class="tech-chip">ESP32</span><span class="tech-chip">C</span><span class="tech-chip">PID Control</span><span class="tech-chip">SolidWorks</span><span class="tech-chip">Fritzing</span>
+      </div>
+      <a href="https://github.com/nihalseth0506/pen-plotter-project" class="project-link">▸ GitHub: Pen Plotter Project</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- WORK EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">&gt; DEPLOYMENT.HISTORY</div>
+  <div class="section-title">Work Experience</div>
+  <div class="hud-divider"><div class="hud-divider-line"></div><div class="hud-divider-diamond"></div><div class="hud-divider-line"></div></div>
+  <div class="timeline reveal">
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-header">
+        <div class="timeline-role">Intern — Mechatronic Design Engineer (R&amp;D)</div>
+        <div class="timeline-period">05/2024 – 08/2024</div>
+      </div>
+      <div class="timeline-org">PMV Electric Pvt Ltd. · India</div>
+      <div class="timeline-body">
+        <ul>
+          <li>Designed an electromechanical motor–gearbox unit in SolidWorks integrating mechanical and drive system requirements for a compact EV platform.</li>
+          <li>Performed actuator sizing and drivetrain simulation using ANSYS Motor-CAD and KissSoft, validating motor-drive performance and system efficiency under dynamic load conditions.</li>
+          <li>Proposed and developed a novel reverse differential mechanism, expanding electromechanical system functionality.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-header">
+        <div class="timeline-role">Design Head — Combustion 4WD &amp; EV 2WD</div>
+        <div class="timeline-period">03/2020 – 06/2022</div>
+      </div>
+      <div class="timeline-org">DJS Kronos India · Mumbai</div>
+      <div class="timeline-body">
+        <ul>
+          <li>Directed cross-functional mechatronic system development (electric powertrain, suspension, braking) across a 2-year design cycle.</li>
+          <li>Led electromechanical powertrain integration for a 2WD Electric ATV, managing motor-drive coordination and resolving mechanical–electrical interface dependencies.</li>
+          <li>Performed simulation-driven structural and drivetrain optimisation using Altair Inspire, ANSYS, and SolidWorks; achieved measurable improvements in gearbox efficiency and weight reduction.</li>
+          <li>Managed design-to-manufacture workflow covering material selection, iterative design revision, and production planning.</li>
+          <li>Secured 10 competition awards including Overall Winner – E-BAJA 2021 Phase 2.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label">&gt; KNOWLEDGE.BASE</div>
+  <div class="section-title">Education</div>
+  <div class="hud-divider"><div class="hud-divider-line"></div><div class="hud-divider-diamond"></div><div class="hud-divider-line"></div></div>
+  <div class="edu-grid reveal">
+
+    <div class="edu-card">
+      <div class="edu-degree">Master of Engineering — Mechatronics &amp; Robotics</div>
+      <div class="edu-institution">Hochschule Schmalkalden University of Applied Sciences · Germany</div>
+      <div class="edu-meta">
+        <span class="edu-badge">10/2024 – Present</span>
+        <span class="edu-badge highlight">Currently Active</span>
+      </div>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-degree">Bachelor of Technology — Mechanical Engineering</div>
+      <div class="edu-institution">Dwarkadas Jivanlal Sanghvi College of Engineering · Mumbai University</div>
+      <div class="edu-meta">
+        <span class="edu-badge">07/2019 – 07/2023</span>
+        <span class="edu-badge highlight">CGPA: 8.83/10</span>
+        <span class="edu-badge highlight">German Grade: 1.5</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:2rem">
+    <div style="font-family:'Share Tech Mono',monospace; font-size:0.7rem; color:var(--cyan); letter-spacing:0.2em; margin-bottom:1rem; opacity:0.8;">&gt; TRAINING &amp; INTERNATIONAL EXPERIENCE</div>
+    <div class="training-grid reveal">
+
+      <div class="training-card">
+        <div style="font-family:'Orbitron',monospace; font-size:0.82rem; font-weight:700; color:var(--text-bright); margin-bottom:0.4rem; letter-spacing:0.05em;">SUAS PREMIER – Automation, PLC &amp; Industry Training</div>
+        <div style="font-family:'Share Tech Mono',monospace; font-size:0.68rem; color:var(--green); letter-spacing:0.1em; margin-bottom:0.75rem;">Hochschule Schmalkalden · 05/2025 – 10/2025 · Micro-Credential</div>
+        <div style="font-size:0.88rem; font-weight:300; color:var(--text); line-height:1.6;">Hands-on training in electronics, microcontrollers (ESP32, Arduino), and PID-based control. Completed Siemens TIA Portal PLC training including ladder/FBD programming, HMI development, simulation, and hardware deployment.</div>
+      </div>
+
+      <div class="training-card">
+        <div style="font-family:'Orbitron',monospace; font-size:0.82rem; font-weight:700; color:var(--text-bright); margin-bottom:0.4rem; letter-spacing:0.05em;">Erasmus+ BIP 2025 — Tail Lift System</div>
+        <div style="font-family:'Share Tech Mono',monospace; font-size:0.68rem; color:var(--green); letter-spacing:0.1em; margin-bottom:0.75rem;">LAB University of Applied Sciences · Finland · 08/2025 – 09/2025</div>
+        <div style="font-size:0.88rem; font-weight:300; color:var(--text); line-height:1.6;">Applied SolidWorks CAM for manufacturing analysis and Mathcad &amp; FluidSIM for hydraulic design. Modelled and analysed hydraulic systems using MATLAB/Simulink with sensor feedback and control.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="margin-top:2rem">
+    <div style="font-family:'Share Tech Mono',monospace; font-size:0.7rem; color:var(--cyan); letter-spacing:0.2em; margin-bottom:1rem; opacity:0.8;">&gt; RELEVANT CERTIFICATIONS</div>
+    <div class="cert-grid reveal">
+      <div class="cert-item"><div class="cert-dot"></div>MathWorks: MATLAB Onramp</div>
+      <div class="cert-item"><div class="cert-dot"></div>MathWorks: Simulink Fundamentals</div>
+      <div class="cert-item"><div class="cert-dot"></div>MathWorks: Control Design</div>
+      <div class="cert-item"><div class="cert-dot"></div>MathWorks: Image Processing</div>
+      <div class="cert-item"><div class="cert-dot"></div>ROS2 for Beginners Level 1 (Jazzy – 2026)</div>
+      <div class="cert-item"><div class="cert-dot"></div>ROS2 Level 2 – TF | URDF | RViz | Gazebo (2026)</div>
+      <div class="cert-item"><div class="cert-dot"></div>NPTEL: Control Engineering (IIT Madras)</div>
+      <div class="cert-item"><div class="cert-dot"></div>NPTEL: Design of Mechatronic Systems</div>
+      <div class="cert-item"><div class="cert-dot"></div>NPTEL: Robotics (IIT Bombay)</div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS & PATENTS -->
+<section id="publications">
+  <div class="section-label">&gt; RESEARCH.OUTPUT</div>
+  <div class="section-title">Publications &amp; Patents</div>
+  <div class="hud-divider"><div class="hud-divider-line"></div><div class="hud-divider-diamond"></div><div class="hud-divider-line"></div></div>
+  <div class="pub-list reveal">
+
+    <div class="pub-card">
+      <div class="pub-icon">PAPER</div>
+      <div>
+        <div class="pub-title">"Design and Development of a Quadcopter"</div>
+        <div class="pub-meta">IJRTI · July 2023</div>
+        <div class="pub-desc">Pick-and-place UAV with custom servo claw mechanism. ANSYS-validated structural design. Covers aerodynamic modeling, structural analysis, and autonomous payload handling.</div>
+        <br>
+        <a href="https://www.ijrti.org/viewpaperforall?paper=IJRTI2307119" class="pub-link">▸ View Published Paper (IJRTI 2023)</a>
+      </div>
+    </div>
+
+    <div class="pub-card">
+      <div class="pub-icon patent">PATENT</div>
+      <div>
+        <div class="pub-title">Design Patent: Continuously Variable Transmission (CVT) for ATV</div>
+        <div class="pub-meta">Application No. 381472-001 · Journal No. 01/2024 · Published: 05/01/2024</div>
+        <div class="pub-desc">Novel CVT design for all-terrain vehicles achieving 32% cost reduction and 15% weight reduction compared to commercial CVT solutions. Accepted and published patent.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXTRACURRICULAR -->
+<section id="extra">
+  <div class="section-label">&gt; OPERATOR.PROFILE</div>
+  <div class="section-title">Beyond Engineering</div>
+  <div class="hud-divider"><div class="hud-divider-line"></div><div class="hud-divider-diamond"></div><div class="hud-divider-line"></div></div>
+  <div class="extra-grid reveal">
+
+    <div class="extra-card">
+      <span class="extra-icon">💪</span>
+      <div class="extra-title">Calisthenics</div>
+      <div class="extra-desc">Dedicated to bodyweight training and progressive skill development. Calisthenics embodies the same principles I apply to engineering — methodical progression, form over ego, and measurable improvement over time. Practising movements like muscle-ups, handstands, and front lever progressions.</div>
+      <div class="extra-tags">
+        <span class="tag">Bodyweight Training</span>
+        <span class="tag">Skill Progressions</span>
+        <span class="tag">Discipline</span>
+      </div>
+    </div>
+
+    <div class="extra-card">
+      <span class="extra-icon">🎲</span>
+      <div class="extra-title">Speed Cubing</div>
+      <div class="extra-desc">Speedsolving Rubik's Cubes and twisty puzzles. The appeal lies in the algorithmic thinking, pattern recognition, and muscle memory optimisation — skills that map directly onto programming and control system design. Multiple puzzle variants beyond the standard 3×3.</div>
+      <div class="extra-tags">
+        <span class="tag">Algorithmic Thinking</span>
+        <span class="tag">Pattern Recognition</span>
+        <span class="tag">Speedsolving</span>
+      </div>
+    </div>
+
+    <div class="extra-card">
+      <span class="extra-icon">🏆</span>
+      <div class="extra-title">SAE BAJA Competitions</div>
+      <div class="extra-desc">Competed and led at national-level SAE BAJA India events as Design Head of DJS Kronos. Secured 10 awards including Overall Winner at E-BAJA 2021 Phase 2, representing hundreds of hours of design, fabrication, and competitive validation.</div>
+      <div class="extra-tags">
+        <span class="tag">Team Leadership</span>
+        <span class="tag">Competitive Engineering</span>
+        <span class="tag">10 Awards</span>
+      </div>
+    </div>
+
+    <div class="extra-card">
+      <span class="extra-icon">🌍</span>
+      <div class="extra-title">International Exchange</div>
+      <div class="extra-desc">Participated in Erasmus+ international project at LAB University of Applied Sciences, Finland. Working across cultures and languages reinforces adaptability and communication — essential in globally distributed engineering teams.</div>
+      <div class="extra-tags">
+        <span class="tag">Erasmus+</span>
+        <span class="tag">Finland</span>
+        <span class="tag">Cross-cultural</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">&gt; ESTABLISH.COMMS</div>
+  <div class="section-title">Get In Touch</div>
+  <div class="hud-divider"><div class="hud-divider-line"></div><div class="hud-divider-diamond"></div><div class="hud-divider-line"></div></div>
+  <p class="reveal" style="font-size:1rem; font-weight:300; color:var(--text); margin-bottom:2rem; max-width:600px; line-height:1.8;">Open to Werkstudent positions, internships, and thesis opportunities in robotics, embedded systems, and simulation in Germany. Feel free to reach out directly.</p>
+  <div class="contact-grid reveal">
+    <a href="mailto:seth.nihal.work@gmail.com" class="contact-item">
+      <div class="contact-label">Email</div>
+      <div class="contact-value">seth.nihal.work@gmail.com</div>
+    </a>
+    <a href="tel:+4915510821160" class="contact-item">
+      <div class="contact-label">Phone</div>
+      <div class="contact-value">(+49) 15510821160</div>
+    </a>
+    <a href="#" class="contact-item">
+      <div class="contact-label">Location</div>
+      <div class="contact-value">Schmalkalden, Germany</div>
+    </a>
+    <a href="https://www.linkedin.com/in/nihal-sanjay-seth-00737321a/" class="contact-item">
+      <div class="contact-label">LinkedIn</div>
+      <div class="contact-value">linkedin.com/in/nihal-seth</div>
+    </a>
+    <a href="https://github.com/nihalseth0506" class="contact-item">
+      <div class="contact-label">GitHub</div>
+      <div class="contact-value">github.com/nihal-seth</div>
+    </a>
+    <div class="contact-item">
+      <div class="contact-label">Availability</div>
+      <div class="contact-value" style="color:var(--green);">Open to Opportunities</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>&gt; NIHAL SANJAY SETH — MECHATRONICS &amp; ROBOTICS ENGINEER &lt;</div>
+  <div style="margin-top:0.5rem; color:var(--text-dim);">SCHMALKALDEN, GERMANY · 2026</div>
+</footer>
+
+<script>
+  // Typing animation
+  const lines = [
+    "Real-Hardware Robotics  // UR10e · RTDE · Visual Servoing",
+    "Robotics Simulation     // ROS2 · Gazebo · 6-DOF Dynamics",
+    "Systems Modelling       // MATLAB/Simulink · Control Design",
+    "Perception & ML         // YOLO · OpenCV · RealSense D435i"
+  ];
+  let li = 0, ci = 0, deleting = false;
+  const el = document.getElementById('hero-typing');
+
+  function type() {
+    const current = lines[li];
+    if (!deleting) {
+      el.textContent = current.slice(0, ci + 1);
+      ci++;
+      if (ci === current.length) {
+        deleting = true;
+        setTimeout(type, 2000);
+        return;
+      }
+    } else {
+      el.textContent = current.slice(0, ci - 1);
+      ci--;
+      if (ci === 0) {
+        deleting = false;
+        li = (li + 1) % lines.length;
+        setTimeout(type, 400);
+        return;
+      }
+    }
+    setTimeout(type, deleting ? 30 : 55);
+  }
+  type();
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Stagger reveals
+  document.querySelectorAll('.project-card, .skill-category, .extra-card, .cert-item').forEach((el, i) => {
+    el.style.transitionDelay = (i % 4) * 0.08 + 's';
+  });
+</script>
+</body>
+</html>
