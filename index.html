@@ -225,10 +225,10 @@
   #hero {
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    align-items: center;
     padding: 6rem;
-    max-width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
     position: relative;
   }
 
@@ -354,14 +354,14 @@
   /* Hero decorative right panel */
   .hero-hud-panel {
     position: absolute;
-    right: 6rem;
+    right: 5rem;
     top: 50%;
     transform: translateY(-50%);
-    width: 260px;
-    opacity: 0.5;
+    width: 220px;
+    opacity: 0.6;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.2rem;
   }
 
   .hud-readout {
@@ -1167,27 +1167,25 @@
 
   <!-- Decorative HUD Panel -->
   <div class="hero-hud-panel">
-    <div class="hud-readout">
-      &gt; SPECIALIZATION_MATRIX<br>
-      &gt; VISION_ROBOTICS........OK<br>
-      &gt; ROS2_SYSTEMS............OK<br>
-      &gt; MATLAB_SIMULINK.........OK<br>
-      &gt; EMBEDDED_CONTROL........OK<br>
-      &gt; PERCEPTION_ML..........ACTIVE
+    <div style="border: 1px solid var(--line); padding: 1rem; position: relative;">
+      <div style="position:absolute; top:-1px; left:-1px; width:10px; height:10px; border-top:2px solid var(--cyan); border-left:2px solid var(--cyan);"></div>
+      <div style="font-family:'Orbitron',monospace; font-size:0.6rem; font-weight:700; color:var(--cyan); letter-spacing:0.2em; margin-bottom:0.75rem; text-transform:uppercase;">Focus Areas</div>
+      <div style="display:flex; flex-direction:column; gap:5px;">
+        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:var(--text); letter-spacing:0.08em; display:flex; align-items:center; gap:6px;"><span style="width:4px;height:4px;background:var(--cyan);flex-shrink:0;"></span>Vision-Guided Robotics</div>
+        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:var(--text); letter-spacing:0.08em; display:flex; align-items:center; gap:6px;"><span style="width:4px;height:4px;background:var(--cyan);flex-shrink:0;"></span>Robot Simulation</div>
+        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:var(--text); letter-spacing:0.08em; display:flex; align-items:center; gap:6px;"><span style="width:4px;height:4px;background:var(--cyan);flex-shrink:0;"></span>Systems Modelling</div>
+        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:var(--text); letter-spacing:0.08em; display:flex; align-items:center; gap:6px;"><span style="width:4px;height:4px;background:var(--cyan);flex-shrink:0;"></span>Embedded Control</div>
+        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:var(--text); letter-spacing:0.08em; display:flex; align-items:center; gap:6px;"><span style="width:4px;height:4px;background:var(--cyan);flex-shrink:0;"></span>Perception &amp; ML</div>
+      </div>
     </div>
-    <div style="height:1px; background: var(--line);"></div>
-    <div style="display:flex; flex-direction:column; gap:6px;">
-      <div style="font-family:'Share Tech Mono',monospace; font-size:0.6rem; color:var(--cyan); letter-spacing:0.12em; border-left:2px solid var(--cyan); padding-left:0.6rem;">VISION-GUIDED ROBOTICS</div>
-      <div style="font-family:'Share Tech Mono',monospace; font-size:0.6rem; color:var(--cyan); letter-spacing:0.12em; border-left:2px solid var(--cyan); padding-left:0.6rem;">ROBOT SIMULATION</div>
-      <div style="font-family:'Share Tech Mono',monospace; font-size:0.6rem; color:var(--cyan); letter-spacing:0.12em; border-left:2px solid var(--cyan); padding-left:0.6rem;">SYSTEMS MODELLING</div>
-      <div style="font-family:'Share Tech Mono',monospace; font-size:0.6rem; color:var(--cyan); letter-spacing:0.12em; border-left:2px solid var(--cyan); padding-left:0.6rem;">EMBEDDED CONTROL</div>
-      <div style="font-family:'Share Tech Mono',monospace; font-size:0.6rem; color:var(--cyan); letter-spacing:0.12em; border-left:2px solid var(--cyan); padding-left:0.6rem;">PERCEPTION &amp; ML</div>
-    </div>
-    <div style="height:1px; background: var(--line);"></div>
-    <div class="hud-readout">
-      &gt; STATUS: SEEKING WERKSTUDENT<br>
-      &gt; THESIS POSITIONS OPEN<br>
-      &gt; INTERNSHIP READY
+    <div style="border: 1px solid var(--line); padding: 1rem; position: relative;">
+      <div style="position:absolute; top:-1px; left:-1px; width:10px; height:10px; border-top:2px solid var(--amber); border-left:2px solid var(--amber);"></div>
+      <div style="font-family:'Orbitron',monospace; font-size:0.6rem; font-weight:700; color:var(--amber); letter-spacing:0.2em; margin-bottom:0.75rem; text-transform:uppercase;">Seeking</div>
+      <div style="display:flex; flex-direction:column; gap:5px;">
+        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:var(--text); letter-spacing:0.08em; display:flex; align-items:center; gap:6px;"><span style="width:4px;height:4px;background:var(--amber);flex-shrink:0;"></span>Werkstudent Positions</div>
+        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:var(--text); letter-spacing:0.08em; display:flex; align-items:center; gap:6px;"><span style="width:4px;height:4px;background:var(--amber);flex-shrink:0;"></span>Thesis Opportunities</div>
+        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:var(--text); letter-spacing:0.08em; display:flex; align-items:center; gap:6px;"><span style="width:4px;height:4px;background:var(--amber);flex-shrink:0;"></span>Internships</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1619,26 +1617,18 @@
       <div class="contact-label">Email</div>
       <div class="contact-value">seth.nihal.work@gmail.com</div>
     </a>
-    <a href="tel:+4915510821160" class="contact-item">
-      <div class="contact-label">Phone</div>
-      <div class="contact-value">(+49) 15510821160</div>
-    </a>
     <a href="#" class="contact-item">
       <div class="contact-label">Location</div>
       <div class="contact-value">Schmalkalden, Germany</div>
     </a>
     <a href="https://www.linkedin.com/in/nihal-sanjay-seth-00737321a/" class="contact-item">
       <div class="contact-label">LinkedIn</div>
-      <div class="contact-value">linkedin.com/in/nihal-seth</div>
+      <div class="contact-value">linkedin.com/in/nihal-sanjay-seth</div>
     </a>
     <a href="https://github.com/nihalseth0506" class="contact-item">
       <div class="contact-label">GitHub</div>
-      <div class="contact-value">github.com/nihal-seth</div>
+      <div class="contact-value">github.com/nihalseth0506</div>
     </a>
-    <div class="contact-item">
-      <div class="contact-label">Availability</div>
-      <div class="contact-value" style="color:var(--green);">Open to Opportunities</div>
-    </div>
   </div>
 </section>
 
