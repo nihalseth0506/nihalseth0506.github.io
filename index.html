@@ -539,7 +539,7 @@
   /* ─── PROJECTS ─── */
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
     gap: 1.5rem;
   }
 
@@ -1123,9 +1123,12 @@
     <li><a href="#extra">Life</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <div class="nav-status">
-    <div class="status-dot"></div>
-    SYSTEM ONLINE
+  <div style="display:flex; align-items:center; gap:1rem;">
+    <a href="https://github.com/nihalseth0506/nihalseth0506.github.io/raw/main/CV_Nihal_Seth.pdf" download style="font-family:'Orbitron',monospace; font-size:0.65rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--bg); background:var(--cyan); border:none; padding:0.45rem 1rem; cursor:pointer; text-decoration:none; clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px));">↓ CV</a>
+    <div class="nav-status">
+      <div class="status-dot"></div>
+      OPEN TO WORK
+    </div>
   </div>
 </nav>
 
@@ -1144,6 +1147,10 @@
     <div class="hero-cta">
       <a href="#projects" class="btn-primary">View Projects</a>
       <a href="#contact" class="btn-ghost">Get In Touch</a>
+    </div>
+    <div style="margin-top:1.5rem; display:flex; align-items:center; gap:10px;">
+      <div style="width:6px;height:6px;background:var(--amber);border-radius:50%;animation:pulse-dot 1.5s infinite;box-shadow:0 0 6px var(--amber);flex-shrink:0;"></div>
+      <span style="font-family:'Share Tech Mono',monospace;font-size:0.68rem;color:var(--text-dim);letter-spacing:0.1em;">CURRENTLY BUILDING: <span style="color:var(--amber);">UR10e Visual Servoing & Factory Copilot Platform</span></span>
     </div>
   </div>
 
@@ -1322,6 +1329,7 @@
         <span class="tech-chip">MATLAB/Simulink</span><span class="tech-chip">ROS2</span><span class="tech-chip">Python</span><span class="tech-chip">6-DOF Dynamics</span><span class="tech-chip">Inverse Dynamics</span>
       </div>
       <a href="https://github.com/nihalseth0506/project_aura_ur5" class="project-link">▸ GitHub: Project AURA UR5</a>
+      <a href="https://github.com/nihalseth0506/project_aura_ur5/tree/main/media/images" class="project-link" style="color:var(--text-dim); margin-left:1rem;">▸ View Images</a>
     </div>
 
     <div class="project-card reveal">
@@ -1360,6 +1368,46 @@
         <span class="tech-chip">ESP32</span><span class="tech-chip">C</span><span class="tech-chip">PID Control</span><span class="tech-chip">SolidWorks</span><span class="tech-chip">Fritzing</span>
       </div>
       <a href="https://github.com/nihalseth0506/pen-plotter-project" class="project-link">▸ GitHub: Pen Plotter Project</a>
+      <a href="https://github.com/nihalseth0506/pen-plotter-project/tree/main/Images_%26_Videos_penplotter" class="project-link" style="color:var(--text-dim); margin-left:1rem;">▸ View Images & Videos</a>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div class="project-title">Vehicle Longitudinal Lap Simulation</div>
+        <div class="project-date">2023 – 2024</div>
+      </div>
+      <div class="project-sub">MATLAB / SIMULINK · VEHICLE DYNAMICS</div>
+      <div class="project-body">
+        <ul>
+          <li>Developed a longitudinal vehicle dynamics model in MATLAB/Simulink to simulate lap performance under varying load and throttle conditions.</li>
+          <li>Modelled drivetrain, braking, and tyre force characteristics to evaluate vehicle response across a defined track profile.</li>
+          <li>Used simulation outputs to analyse energy consumption, acceleration, and braking efficiency for performance benchmarking.</li>
+        </ul>
+      </div>
+      <div class="project-tech">
+        <span class="tech-chip">MATLAB/Simulink</span><span class="tech-chip">Vehicle Dynamics</span><span class="tech-chip">Lap Simulation</span><span class="tech-chip">Drivetrain Modelling</span>
+      </div>
+      <a href="https://github.com/nihalseth0506/Vehicle_Longitudinal_Lap_Simulation" class="project-link">▸ GitHub: Vehicle Lap Simulation</a>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div class="project-title">Particle–Fluid Surface Interaction (Simulink Hybrid System)</div>
+        <div class="project-date">2024 – 2025</div>
+      </div>
+      <div class="project-sub">MATLAB / SIMULINK · HYBRID SYSTEM MODELLING</div>
+      <div class="project-body">
+        <ul>
+          <li>Built a MATLAB/Simulink hybrid system model simulating particle–fluid surface interaction dynamics across discrete and continuous state transitions.</li>
+          <li>Developed modular Simulink architecture to capture coupled physical behaviour between particles and fluid surfaces under varying boundary conditions.</li>
+          <li>Generated and analysed simulation figures documenting system response, state transitions, and interaction force profiles.</li>
+        </ul>
+      </div>
+      <div class="project-tech">
+        <span class="tech-chip">MATLAB/Simulink</span><span class="tech-chip">Hybrid Systems</span><span class="tech-chip">Fluid Dynamics</span><span class="tech-chip">State Machines</span>
+      </div>
+      <a href="https://github.com/nihalseth0506/particle-fluid-surface-interaction" class="project-link">▸ GitHub: Particle–Fluid Interaction</a>
+      <a href="https://github.com/nihalseth0506/particle-fluid-surface-interaction/tree/main/matlab/part6_simulink_hybrid_system/figures" class="project-link" style="color:var(--text-dim); margin-left:1rem;">▸ View Figures</a>
     </div>
 
   </div>
@@ -1581,7 +1629,7 @@
     </a>
     <a href="https://github.com/nihalseth0506" class="contact-item">
       <div class="contact-label">GitHub</div>
-      <div class="contact-value">github.com/nihal-seth</div>
+      <div class="contact-value">github.com/nihalseth0506</div>
     </a>
     <div class="contact-item">
       <div class="contact-label">Availability</div>
