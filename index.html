@@ -43,9 +43,18 @@
     position: fixed;
     inset: 0;
     background-image:
-      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+      linear-gradient(rgba(0,229,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.025) 1px, transparent 1px);
     background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #cosmos-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
     z-index: 0;
   }
@@ -1121,8 +1130,9 @@
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
+<canvas id="cosmos-canvas"></canvas>
+
+<!-- NAV --><nav>
   <div class="nav-logo"></div>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
@@ -1692,6 +1702,262 @@
   document.querySelectorAll('.project-card, .skill-category, .extra-card, .cert-item').forEach((el, i) => {
     el.style.transitionDelay = (i % 4) * 0.08 + 's';
   });
+
+  // ─── COSMOS CANVAS ───
+  (function() {
+    const canvas = document.getElementById('cosmos-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, stars, nebula, orbitals, shootingStars, t = 0;
+
+    const CYAN = '0,229,255';
+    const AMBER = '255,179,0';
+    const WHITE = '255,255,255';
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+      init();
+    }
+
+    function rand(a, b) { return a + Math.random() * (b - a); }
+    function randInt(a, b) { return Math.floor(rand(a, b)); }
+
+    function init() {
+      // Stars — three layers: tiny dim, small mid, rare bright
+      stars = [];
+      for (let i = 0; i < 320; i++) {
+        const layer = i < 200 ? 0 : i < 290 ? 1 : 2;
+        stars.push({
+          x: rand(0, W), y: rand(0, H),
+          r: layer === 0 ? rand(0.3, 0.7) : layer === 1 ? rand(0.6, 1.1) : rand(1.0, 1.8),
+          alpha: layer === 0 ? rand(0.15, 0.35) : layer === 1 ? rand(0.3, 0.6) : rand(0.5, 0.95),
+          twinkleSpeed: rand(0.004, 0.018),
+          twinklePhase: rand(0, Math.PI * 2),
+          color: Math.random() < 0.08 ? AMBER : (Math.random() < 0.12 ? CYAN : WHITE),
+          layer
+        });
+      }
+
+      // Nebula dust clouds — slow drifting gaussian blobs
+      nebula = [];
+      for (let i = 0; i < 6; i++) {
+        nebula.push({
+          x: rand(0, W), y: rand(0, H),
+          rx: rand(120, 280), ry: rand(80, 200),
+          alpha: rand(0.018, 0.048),
+          color: Math.random() < 0.5 ? CYAN : AMBER,
+          dx: rand(-0.04, 0.04), dy: rand(-0.025, 0.025),
+          rot: rand(0, Math.PI), rotSpeed: rand(-0.0002, 0.0002)
+        });
+      }
+
+      // Black hole orbital rings — centered at a fixed point off-center
+      orbitals = [];
+      const bhx = W * 0.82, bhy = H * 0.38;
+      const ringCount = 5;
+      for (let i = 0; i < ringCount; i++) {
+        orbitals.push({
+          cx: bhx, cy: bhy,
+          rx: 38 + i * 22,
+          ry: (38 + i * 22) * 0.32,
+          rot: rand(0, Math.PI),
+          speed: 0.0006 + i * 0.00015,
+          alpha: 0.55 - i * 0.09,
+          color: i < 2 ? AMBER : CYAN,
+          dashOffset: rand(0, 200),
+          particles: Array.from({length: randInt(1,3)}, () => ({
+            angle: rand(0, Math.PI * 2),
+            speed: (0.008 + i * 0.002) * (Math.random() < 0.5 ? 1 : -1),
+            size: rand(1.2, 2.4)
+          }))
+        });
+      }
+      // Black hole core
+      orbitals.bhx = bhx; orbitals.bhy = bhy;
+
+      // Shooting stars / data streams
+      shootingStars = [];
+    }
+
+    function spawnShootingStar() {
+      if (shootingStars.length > 3) return;
+      if (Math.random() > 0.004) return;
+      const angle = rand(0.1, 0.5);
+      const x = rand(0, W * 0.7);
+      const y = rand(0, H * 0.5);
+      shootingStars.push({
+        x, y, angle,
+        speed: rand(6, 14),
+        len: rand(80, 180),
+        alpha: 1,
+        color: Math.random() < 0.3 ? AMBER : CYAN,
+        life: 0, maxLife: rand(30, 70)
+      });
+    }
+
+    function drawNebula() {
+      nebula.forEach(n => {
+        n.x += n.dx; n.y += n.dy; n.rot += n.rotSpeed;
+        if (n.x < -300) n.x = W + 200;
+        if (n.x > W + 300) n.x = -200;
+        if (n.y < -200) n.y = H + 150;
+        if (n.y > H + 200) n.y = -150;
+        ctx.save();
+        ctx.translate(n.x, n.y);
+        ctx.rotate(n.rot);
+        const g = ctx.createRadialGradient(0, 0, 0, 0, 0, n.rx);
+        g.addColorStop(0, `rgba(${n.color},${n.alpha})`);
+        g.addColorStop(0.5, `rgba(${n.color},${n.alpha * 0.4})`);
+        g.addColorStop(1, `rgba(${n.color},0)`);
+        ctx.scale(1, n.ry / n.rx);
+        ctx.beginPath();
+        ctx.arc(0, 0, n.rx, 0, Math.PI * 2);
+        ctx.fillStyle = g;
+        ctx.fill();
+        ctx.restore();
+      });
+    }
+
+    function drawStars() {
+      stars.forEach(s => {
+        const tw = Math.sin(t * s.twinkleSpeed * 60 + s.twinklePhase);
+        const a = s.alpha * (0.75 + 0.25 * tw);
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${s.color},${a})`;
+        ctx.fill();
+        // Bright stars get a tiny cross flare
+        if (s.layer === 2 && a > 0.7) {
+          ctx.strokeStyle = `rgba(${s.color},${a * 0.35})`;
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(s.x - s.r * 3, s.y);
+          ctx.lineTo(s.x + s.r * 3, s.y);
+          ctx.moveTo(s.x, s.y - s.r * 3);
+          ctx.lineTo(s.x, s.y + s.r * 3);
+          ctx.stroke();
+        }
+      });
+    }
+
+    function drawBlackHole() {
+      const bhx = orbitals.bhx, bhy = orbitals.bhy;
+      // Accretion glow
+      const ag = ctx.createRadialGradient(bhx, bhy, 0, bhx, bhy, 90);
+      ag.addColorStop(0, 'rgba(255,179,0,0.06)');
+      ag.addColorStop(0.4, 'rgba(255,179,0,0.025)');
+      ag.addColorStop(0.7, `rgba(${CYAN},0.015)`);
+      ag.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.beginPath();
+      ctx.arc(bhx, bhy, 90, 0, Math.PI * 2);
+      ctx.fillStyle = ag;
+      ctx.fill();
+
+      // Core — true black void
+      const cg = ctx.createRadialGradient(bhx, bhy, 0, bhx, bhy, 22);
+      cg.addColorStop(0, 'rgba(0,0,0,1)');
+      cg.addColorStop(0.7, 'rgba(0,0,0,0.98)');
+      cg.addColorStop(1, 'rgba(0,0,0,0.4)');
+      ctx.beginPath();
+      ctx.arc(bhx, bhy, 22, 0, Math.PI * 2);
+      ctx.fillStyle = cg;
+      ctx.fill();
+
+      // Orbital ellipses + particles
+      orbitals.forEach(o => {
+        o.rot += o.speed;
+        o.dashOffset -= 0.4;
+        ctx.save();
+        ctx.translate(o.cx, o.cy);
+        ctx.rotate(o.rot * 0.3);
+        ctx.scale(1, o.ry / o.rx);
+        ctx.setLineDash([4, 8]);
+        ctx.lineDashOffset = o.dashOffset;
+        ctx.beginPath();
+        ctx.arc(0, 0, o.rx, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${o.color},${o.alpha})`;
+        ctx.lineWidth = o.alpha > 0.4 ? 1.2 : 0.7;
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+
+        // Orbital particles
+        o.particles.forEach(p => {
+          p.angle += p.speed;
+          const scaleY = o.ry / o.rx;
+          const px = o.cx + Math.cos(p.angle + o.rot * 0.3) * o.rx;
+          const py = o.cy + Math.sin(p.angle + o.rot * 0.3) * o.rx * scaleY;
+          ctx.beginPath();
+          ctx.arc(px, py, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${o.color},${o.alpha + 0.2})`;
+          ctx.fill();
+        });
+      });
+    }
+
+    function drawShootingStars() {
+      spawnShootingStar();
+      shootingStars = shootingStars.filter(s => s.life < s.maxLife);
+      shootingStars.forEach(s => {
+        s.life++;
+        const progress = s.life / s.maxLife;
+        const fade = progress < 0.3 ? progress / 0.3 : 1 - (progress - 0.3) / 0.7;
+        const tx = s.x + Math.cos(s.angle) * s.speed * s.life;
+        const ty = s.y + Math.sin(s.angle) * s.speed * s.life;
+        const hx = tx - Math.cos(s.angle) * s.len * fade;
+        const hy = ty - Math.sin(s.angle) * s.len * fade;
+        const g = ctx.createLinearGradient(hx, hy, tx, ty);
+        g.addColorStop(0, `rgba(${s.color},0)`);
+        g.addColorStop(1, `rgba(${s.color},${0.7 * fade})`);
+        ctx.beginPath();
+        ctx.moveTo(hx, hy);
+        ctx.lineTo(tx, ty);
+        ctx.strokeStyle = g;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        // Bright head
+        ctx.beginPath();
+        ctx.arc(tx, ty, Math.max(0, 1.5 * fade), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${s.color},${fade})`;
+        ctx.fill();
+      });
+    }
+
+    function drawQuantumGrid() {
+      // Faint data-pulse lines that travel across the grid periodically
+      const gridSize = 40;
+      const pulseX = (t * 0.3) % W;
+      ctx.strokeStyle = `rgba(${CYAN},0.04)`;
+      ctx.lineWidth = 1;
+      // horizontal sweep
+      for (let y = 0; y < H; y += gridSize) {
+        const dist = Math.abs((pulseX % (W / 2)) - (W / 4));
+        const bright = Math.max(0, 1 - dist / 200);
+        if (bright > 0.01) {
+          ctx.strokeStyle = `rgba(${CYAN},${0.06 * bright})`;
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(W, y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    function frame() {
+      t++;
+      ctx.clearRect(0, 0, W, H);
+      drawNebula();
+      drawQuantumGrid();
+      drawStars();
+      drawBlackHole();
+      drawShootingStars();
+      requestAnimationFrame(frame);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    frame();
+  })();
 </script>
 </body>
 </html>
