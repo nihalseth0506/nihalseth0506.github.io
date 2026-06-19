@@ -1171,7 +1171,7 @@
     </div>
     <div style="margin-top:1.5rem; display:flex; align-items:center; gap:10px;">
       <div style="width:6px;height:6px;background:var(--amber);border-radius:50%;animation:pulse-dot 1.5s infinite;flex-shrink:0;"></div>
-      <span style="font-family:'Share Tech Mono',monospace;font-size:0.68rem;color:var(--text-dim);letter-spacing:0.1em;">CURRENTLY BUILDING: <span style="color:var(--amber);">Project FRANK — RL for Franka FR3 in MuJoCo &amp; UR10e Visual Servoing Platform</span></span>
+      <span style="font-family:'Share Tech Mono',monospace;font-size:0.68rem;color:var(--text-dim);letter-spacing:0.1em;">CURRENTLY BUILDING: <span style="color:var(--amber);">Project FRANK — RL pick-and-place pipeline for Franka Panda in MuJoCo &amp; UR10e Visual Servoing Platform</span></span>
     </div>
   </div>
 
@@ -1208,7 +1208,7 @@
   <div class="hud-divider"><div class="hud-divider-line"></div><div class="hud-divider-diamond"></div><div class="hud-divider-line"></div></div>
   <div class="about-grid reveal" style="grid-template-columns: 1fr;">
     <div class="about-text">
-      <p>Master's student in Mechatronics &amp; Robotics at Hochschule Schmalkalden with hands-on experience in robot learning, vision-guided robotics, real-time robot control, and simulation. I build systems that work — from a reinforcement learning pipeline for Franka FR3 manipulation in MuJoCo (Project FRANK, 90% eval success) to a UR10e visual servoing rig and an energy-optimised 6-DOF UR5 control framework.</p>
+      <p>Master's student in Mechatronics &amp; Robotics at Hochschule Schmalkalden with hands-on experience in robot learning, vision-guided robotics, real-time robot control, and simulation. I build systems that work — from a reinforcement learning pipeline for Franka Panda manipulation in MuJoCo (Project FRANK, up to 100% pick-and-place success) to a UR10e visual servoing rig and an energy-optimised 6-DOF UR5 control framework.</p>
       <p>My engineering philosophy is grounded in honest, defensible implementation: I'd rather quantify exactly what a system does than overstate what it might do. Whether it's tuning PID loops on a self-built pen plotter or architecting a FastAPI telemetry pipeline, I focus on measurable outcomes and solid fundamentals.</p>
       <p>Beyond robotics, I'm drawn to quantum physics and the structure of the universe at the largest scales — the kind of questions that sit at the boundary of what's currently knowable. It's a different mode of thinking from engineering, and I find that contrast valuable.</p>
       <div class="highlight-tags">
@@ -1288,13 +1288,13 @@
       <div class="project-sub">MuJoCo · PPO · Gymnasium · PyTorch · Stable-Baselines3</div>
       <div class="project-body">
         <ul>
-          <li>Built a complete RL pipeline for Franka FR3 manipulation in MuJoCo — custom Gymnasium environment, PPO (Stable-Baselines3), curriculum learning, and VecNormalize; achieved 90% eval success on reach task at 5 cm precision.</li>
-          <li>Debugged RL-specific failures (entropy collapse, reward hacking, curriculum mismatch) across 8 training iterations; implemented progressive reward shaping and delta action space for stable convergence.</li>
-          <li>Pick-and-place task in active development, extending learned reach policy to full manipulation sequences.</li>
+          <li>Built a full RL pipeline for Franka Panda manipulation in MuJoCo — custom Gymnasium environment, PPO (Stable-Baselines3), curriculum learning, and VecNormalize; policy drives all arm motion across approach, descent, lift, and transport stages.</li>
+          <li>Achieved up to 100% pick-and-place success rate on constrained tasks; diagnosed and resolved RL-specific failures across 7 training iterations — entropy collapse, reward hacking, curriculum distribution mismatch, and training height mismatch.</li>
+          <li>Designed a hybrid policy + scripted pipeline — reach policy handles all spatial motion; contact dynamics tuned (finger friction, cube friction, gripper gain) for reliable grasping without retraining.</li>
         </ul>
       </div>
       <div class="project-tech">
-        <span class="tech-chip">MuJoCo</span><span class="tech-chip">PPO</span><span class="tech-chip">Gymnasium</span><span class="tech-chip">PyTorch</span><span class="tech-chip">Stable-Baselines3</span><span class="tech-chip">Curriculum Learning</span><span class="tech-chip">Reward Shaping</span>
+        <span class="tech-chip">MuJoCo</span><span class="tech-chip">PPO</span><span class="tech-chip">Gymnasium</span><span class="tech-chip">PyTorch</span><span class="tech-chip">Stable-Baselines3</span><span class="tech-chip">Curriculum Learning</span><span class="tech-chip">Hybrid Pipeline</span>
       </div>
       <a href="https://github.com/nihalseth0506/project_frank" class="project-link">▸ GitHub: Project FRANK</a>
     </div>
@@ -1368,26 +1368,6 @@
 
     <div class="project-card reveal">
       <div class="project-header">
-        <div class="project-title">Pen Plotter (Master's Project)</div>
-        <div class="project-date">11/2024 – 07/2025</div>
-      </div>
-      <div class="project-sub">ESP32 · C · SOLIDWORKS · ARDUINO IDE</div>
-      <div class="project-body">
-        <ul>
-          <li>Designed and built a 3-axis pen plotter frame in SolidWorks for high precision and structural stability.</li>
-          <li>Developed electrical schematic in Fritzing and programmed motion control on ESP32 with PID tuning.</li>
-          <li>Achieved smooth plotting accuracy and reliable homing through tuned PID control and safety integration.</li>
-        </ul>
-      </div>
-      <div class="project-tech">
-        <span class="tech-chip">ESP32</span><span class="tech-chip">C</span><span class="tech-chip">PID Control</span><span class="tech-chip">SolidWorks</span><span class="tech-chip">Fritzing</span>
-      </div>
-      <a href="https://github.com/nihalseth0506/pen-plotter-project" class="project-link">▸ GitHub: Pen Plotter Project</a>
-      <a href="https://github.com/nihalseth0506/pen-plotter-project/tree/main/Images_%26_Videos_penplotter" class="project-link" style="color:var(--text-dim); margin-left:1rem;">▸ View Images &amp; Videos</a>
-    </div>
-
-    <div class="project-card reveal">
-      <div class="project-header">
         <div class="project-title">Vehicle Longitudinal Lap Simulation</div>
         <div class="project-date">02/2026</div>
       </div>
@@ -1424,6 +1404,26 @@
       </div>
       <a href="https://github.com/nihalseth0506/particle-fluid-surface-interaction" class="project-link">▸ GitHub: Particle–Fluid Interaction</a>
       <a href="https://github.com/nihalseth0506/particle-fluid-surface-interaction/tree/main/matlab/part6_simulink_hybrid_system/figures" class="project-link" style="color:var(--text-dim); margin-left:1rem;">▸ View Figures</a>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div class="project-title">Pen Plotter (Master's Project)</div>
+        <div class="project-date">11/2024 – 07/2025</div>
+      </div>
+      <div class="project-sub">ESP32 · C · SOLIDWORKS · ARDUINO IDE</div>
+      <div class="project-body">
+        <ul>
+          <li>Designed and built a 3-axis pen plotter frame in SolidWorks for high precision and structural stability.</li>
+          <li>Developed electrical schematic in Fritzing and programmed motion control on ESP32 with PID tuning.</li>
+          <li>Achieved smooth plotting accuracy and reliable homing through tuned PID control and safety integration.</li>
+        </ul>
+      </div>
+      <div class="project-tech">
+        <span class="tech-chip">ESP32</span><span class="tech-chip">C</span><span class="tech-chip">PID Control</span><span class="tech-chip">SolidWorks</span><span class="tech-chip">Fritzing</span>
+      </div>
+      <a href="https://github.com/nihalseth0506/pen-plotter-project" class="project-link">▸ GitHub: Pen Plotter Project</a>
+      <a href="https://github.com/nihalseth0506/pen-plotter-project/tree/main/Images_%26_Videos_penplotter" class="project-link" style="color:var(--text-dim); margin-left:1rem;">▸ View Images &amp; Videos</a>
     </div>
 
   </div>
