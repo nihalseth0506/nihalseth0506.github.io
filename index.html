@@ -1114,10 +1114,38 @@
     border-left: 2px solid var(--green);
   }
 
+  /* ─── EXPERIENCE LAYER: PORTFOLIO INTERACTIONS ─── */
+  .nav-toggle { display:none; background:transparent; border:1px solid var(--line); color:var(--cyan); width:38px; height:34px; font:700 1rem/1 'Share Tech Mono',monospace; cursor:pointer; }
+  .nav-toggle:focus-visible, a:focus-visible, button:focus-visible { outline:2px solid var(--amber); outline-offset:4px; }
+  .project-intro { display:flex; justify-content:space-between; align-items:end; gap:1.5rem; margin:-0.5rem 0 1.5rem; }
+  .project-intro p { max-width:620px; line-height:1.6; color:var(--text-dim); font-size:1rem; }
+  .project-count { color:var(--amber); font:0.67rem 'Share Tech Mono',monospace; letter-spacing:.12em; white-space:nowrap; }
+  .project-filters { display:flex; flex-wrap:wrap; gap:.55rem; margin-bottom:1.5rem; }
+  .filter-btn { border:1px solid var(--line); background:rgba(0,229,255,.035); color:var(--text-dim); cursor:pointer; padding:.48rem .8rem; font:0.63rem 'Share Tech Mono',monospace; letter-spacing:.1em; text-transform:uppercase; transition:.2s; }
+  .filter-btn:hover, .filter-btn.is-active { border-color:var(--cyan); color:var(--cyan); background:var(--cyan-glow); box-shadow:0 0 14px rgba(0,229,255,.12); }
+  .project-card { overflow:hidden; }
+  .project-card::selection { background:var(--cyan); color:var(--bg); }
+  .project-card::before { transition:width .3s,height .3s; }
+  .project-card:hover::before { width:32px; height:32px; }
+  .project-card.is-hidden { display:none; }
+  .project-card .project-title { max-width:34rem; }
+  .project-card .project-date { font-size:.6rem; }
+  .project-card .project-body { max-width:68ch; }
+  .project-card .project-link { position:relative; }
+  .project-card .project-link::after { content:'↗'; opacity:0; margin-left:2px; transition:.2s; }
+  .project-card .project-link:hover::after { opacity:1; }
+  .scroll-top { position:fixed; right:1.5rem; bottom:1.5rem; z-index:20; width:42px; height:42px; border:1px solid var(--cyan); background:rgba(6,9,15,.88); color:var(--cyan); opacity:0; transform:translateY(10px); pointer-events:none; transition:.2s; cursor:pointer; font-size:1.1rem; }
+  .scroll-top.is-visible { opacity:1; transform:translateY(0); pointer-events:auto; }
+  .section-title { scroll-margin-top:76px; }
+
   @media (max-width: 900px) {
-    nav { padding: 0 1.5rem; }
-    .nav-links { gap: 1rem; }
-    .nav-links a { font-size: 0.62rem; }
+    nav { padding: 0 1rem; }
+    .nav-toggle { display:block; }
+    .nav-links { display:none; position:absolute; top:56px; left:0; right:0; padding:1rem 1.25rem 1.25rem; background:rgba(6,9,15,.98); border-bottom:1px solid var(--line); flex-direction:column; gap:1rem; }
+    .nav-links.is-open { display:flex; }
+    .nav-links a { font-size:.72rem; }
+    .nav-status { display:none; }
+    .project-intro { align-items:start; flex-direction:column; gap:.5rem; }
     section { padding: 4rem 1.5rem 2.5rem; }
     #hero { padding: 4rem 1.5rem; }
     .hero-hud-panel { display: none; }
@@ -1125,6 +1153,18 @@
     .projects-grid { grid-template-columns: 1fr; }
     .edu-grid { grid-template-columns: 1fr; }
     .training-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .nav-logo { font-size:.68rem; }
+    nav > div:last-child a { padding:.42rem .6rem !important; font-size:.56rem !important; }
+    .project-card { padding:1.25rem; }
+    .project-header, .timeline-header { flex-direction:column; gap:.55rem; }
+    .project-date { align-self:flex-start; }
+    .hero-meta { gap:.75rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; transition-duration:.01ms !important; }
+    #cosmos-canvas { display:none; }
   }
 </style>
 </head>
@@ -1134,7 +1174,8 @@
 
 <!-- NAV --><nav>
   <div class="nav-logo"></div>
-  <ul class="nav-links">
+  <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-navigation">☰</button>
+  <ul class="nav-links" id="site-navigation">
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#projects">Projects</a></li>
@@ -1278,9 +1319,19 @@
   <div class="section-label">&gt; MISSION.LOG</div>
   <div class="section-title">Technical Projects</div>
   <div class="hud-divider"><div class="hud-divider-line"></div><div class="hud-divider-diamond"></div><div class="hud-divider-line"></div></div>
+  <div class="project-intro reveal">
+    <p>A selected engineering log spanning intelligent robotics, autonomous systems, simulation, and embedded control.</p>
+    <span class="project-count" id="project-count">07 SYSTEMS LOGGED</span>
+  </div>
+  <div class="project-filters" aria-label="Filter technical projects">
+    <button class="filter-btn is-active" type="button" data-filter="all">All systems</button>
+    <button class="filter-btn" type="button" data-filter="robotics">Robotics &amp; AI</button>
+    <button class="filter-btn" type="button" data-filter="simulation">Simulation</button>
+    <button class="filter-btn" type="button" data-filter="embedded">Embedded</button>
+  </div>
   <div class="projects-grid">
 
-    <div class="project-card reveal">
+    <div class="project-card reveal" data-category="robotics simulation">
       <div class="project-header">
         <div class="project-title">Project FRANK — Franka Reinforcement &amp; Autonomy via Neural Kinematics</div>
         <div class="project-date">06/2026 – PRESENT</div>
@@ -1299,7 +1350,7 @@
       <a href="https://github.com/nihalseth0506/project_frank" class="project-link">▸ GitHub: Project FRANK</a>
     </div>
 
-    <div class="project-card reveal">
+    <div class="project-card reveal" data-category="robotics embedded">
       <div class="project-header">
         <div class="project-title">Vision-Guided Pick-and-Place &amp; Industrial Monitoring System</div>
         <div class="project-date">04/2026 – PRESENT</div>
@@ -1324,7 +1375,7 @@
       </div>
     </div>
 
-    <div class="project-card reveal">
+    <div class="project-card reveal" data-category="robotics simulation">
       <div class="project-header">
         <div class="project-title">Project AURA — Energy-Optimized Robotic Actuation</div>
         <div class="project-date">02/2026 – 03/2026</div>
@@ -1346,7 +1397,7 @@
       <a href="https://github.com/nihalseth0506/project_aura_ur5/tree/main/media/images" class="project-link" style="color:var(--text-dim); margin-left:1rem;">▸ View Images</a>
     </div>
 
-    <div class="project-card reveal">
+    <div class="project-card reveal" data-category="robotics simulation">
       <div class="project-header">
         <div class="project-title">ROS2 Mobile Robot with Manipulator &amp; Vision-Based Control</div>
         <div class="project-date">04/2026</div>
@@ -1366,7 +1417,7 @@
       <a href="https://www.linkedin.com/posts/nihal-sanjay-seth-00737321a_ros2-robotics-autonomoussystems-ugcPost-7455203039780646912-WWnl/" class="project-link" target="_blank">▸ Watch Demo on LinkedIn</a>
     </div>
 
-    <div class="project-card reveal">
+    <div class="project-card reveal" data-category="simulation">
       <div class="project-header">
         <div class="project-title">Vehicle Longitudinal Lap Simulation</div>
         <div class="project-date">02/2026</div>
@@ -1386,7 +1437,7 @@
       <a href="https://github.com/nihalseth0506/Vehicle_Longitudinal_Lap_Simulation/tree/main/results" class="project-link" style="color:var(--text-dim); margin-left:1rem;">▸ View Results</a>
     </div>
 
-    <div class="project-card reveal">
+    <div class="project-card reveal" data-category="simulation">
       <div class="project-header">
         <div class="project-title">Particle–Fluid Surface Interaction (Simulink Hybrid System)</div>
         <div class="project-date">01/2026 – 02/2026</div>
@@ -1406,7 +1457,7 @@
       <a href="https://github.com/nihalseth0506/particle-fluid-surface-interaction/tree/main/matlab/part6_simulink_hybrid_system/figures" class="project-link" style="color:var(--text-dim); margin-left:1rem;">▸ View Figures</a>
     </div>
 
-    <div class="project-card reveal">
+    <div class="project-card reveal" data-category="embedded robotics">
       <div class="project-header">
         <div class="project-title">Pen Plotter (Master's Project)</div>
         <div class="project-date">11/2024 – 07/2025</div>
@@ -1651,6 +1702,7 @@
   <div>&gt; NIHAL SANJAY SETH — MECHATRONICS &amp; ROBOTICS ENGINEER &lt;</div>
   <div style="margin-top:0.5rem; color:var(--text-dim);">SCHMALKALDEN, GERMANY · 2026</div>
 </footer>
+<button class="scroll-top" type="button" aria-label="Back to top">↑</button>
 
 <script>
   // Typing animation
@@ -1687,6 +1739,44 @@
   }
   type();
 
+  // Mobile navigation, project filtering, and progressive external links
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('is-open');
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+    navToggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+    navToggle.textContent = isOpen ? '×' : '☰';
+  });
+  navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+    navLinks.classList.remove('is-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', 'Open navigation');
+    navToggle.textContent = '☰';
+  }));
+
+  const projectCards = [...document.querySelectorAll('.project-card')];
+  const projectCount = document.getElementById('project-count');
+  document.querySelectorAll('.filter-btn').forEach(button => button.addEventListener('click', () => {
+    const filter = button.dataset.filter;
+    document.querySelectorAll('.filter-btn').forEach(item => item.classList.toggle('is-active', item === button));
+    let visible = 0;
+    projectCards.forEach(card => {
+      const show = filter === 'all' || card.dataset.category.includes(filter);
+      card.classList.toggle('is-hidden', !show);
+      if (show) visible++;
+    });
+    projectCount.textContent = `${String(visible).padStart(2, '0')} SYSTEM${visible === 1 ? '' : 'S'} LOGGED`;
+  }));
+
+  document.querySelectorAll('a[href^="http"]').forEach(link => {
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+  });
+  const scrollTop = document.querySelector('.scroll-top');
+  window.addEventListener('scroll', () => scrollTop.classList.toggle('is-visible', window.scrollY > 700), { passive:true });
+  scrollTop.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+
   // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -1705,6 +1795,7 @@
 
   // ─── COSMOS CANVAS ───
   (function() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const canvas = document.getElementById('cosmos-canvas');
     const ctx = canvas.getContext('2d');
     let W, H, stars, nebula, orbitals, shootingStars, t = 0;
@@ -1725,8 +1816,9 @@
     function init() {
       // Stars — three layers: tiny dim, small mid, rare bright
       stars = [];
-      for (let i = 0; i < 320; i++) {
-        const layer = i < 200 ? 0 : i < 290 ? 1 : 2;
+      const starTotal = window.innerWidth < 700 ? 120 : 320;
+      for (let i = 0; i < starTotal; i++) {
+        const layer = i < starTotal * 0.63 ? 0 : i < starTotal * 0.91 ? 1 : 2;
         stars.push({
           x: rand(0, W), y: rand(0, H),
           r: layer === 0 ? rand(0.3, 0.7) : layer === 1 ? rand(0.6, 1.1) : rand(1.0, 1.8),
@@ -1943,6 +2035,7 @@
       }
     }
 
+    let animationFrame;
     function frame() {
       t++;
       ctx.clearRect(0, 0, W, H);
@@ -1951,10 +2044,14 @@
       drawStars();
       drawBlackHole();
       drawShootingStars();
-      requestAnimationFrame(frame);
+      animationFrame = requestAnimationFrame(frame);
     }
 
     window.addEventListener('resize', resize);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) cancelAnimationFrame(animationFrame);
+      else frame();
+    });
     resize();
     frame();
   })();
