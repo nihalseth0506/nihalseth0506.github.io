@@ -1249,7 +1249,7 @@
   <div class="hud-divider"><div class="hud-divider-line"></div><div class="hud-divider-diamond"></div><div class="hud-divider-line"></div></div>
   <div class="about-grid reveal" style="grid-template-columns: 1fr;">
     <div class="about-text">
-      <p>Master's student in Mechatronics &amp; Robotics at Hochschule Schmalkalden with hands-on experience in robot learning, vision-guided robotics, real-time robot control, and simulation. I build systems that work — from FRANK, a three-phase RL and VLA pipeline for Franka Panda in MuJoCo (PPO reach policy, overhead YOLO detection, and language-directed multi-colour cube picking), to a UR10e visual servoing rig and an energy-optimised 6-DOF UR5 control framework.</p>
+      <p>Master's student in Mechatronics &amp; Robotics at Hochschule Schmalkalden with hands-on experience in robot learning, vision-guided robotics, real-time robot control, and simulation. I build systems that work — from FRANK, a three-phase RL and VLA pipeline for Franka Panda in MuJoCo (PPO reach policy, overhead YOLO detection, and language-directed multi-colour cube picking), to a UR10e visual servoing rig, an energy-optimised 6-DOF UR5 control framework, and robo-data-engine, an embodiment-agnostic ROS2/MuJoCo data pipeline.</p>
       <p>My engineering philosophy is grounded in honest, defensible implementation: I'd rather quantify exactly what a system does than overstate what it might do. Whether it's tuning PID loops on a self-built pen plotter or architecting a FastAPI telemetry pipeline, I focus on measurable outcomes and solid fundamentals.</p>
       <p>Beyond robotics, I'm drawn to quantum physics and the structure of the universe at the largest scales — the kind of questions that sit at the boundary of what's currently knowable. It's a different mode of thinking from engineering, and I find that contrast valuable.</p>
       <div class="highlight-tags">
@@ -1261,6 +1261,7 @@
         <span class="tag">Control Systems</span>
         <span class="tag">Automation</span>
         <span class="tag">Gazebo Simulation</span>
+        <span class="tag">Robot Data Pipelines</span>
         <span class="tag">Quantum Physics</span>
       </div>
     </div>
@@ -1282,6 +1283,7 @@
       <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">MuJoCo</span></div>
       <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">UR Robots RTDE</span></div>
       <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">FluidSIM / KissSoft</span></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">MCAP</span></div>
     </div>
 
     <div class="skill-category">
@@ -1293,6 +1295,7 @@
       <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">OpenCV</span></div>
       <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">YOLO (Custom Training)</span></div>
       <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">FastAPI / PostgreSQL</span></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">PyArrow</span></div>
     </div>
 
     <div class="skill-category">
@@ -1300,7 +1303,6 @@
       <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">ESP32 / Arduino</span></div>
       <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">PLC — Siemens TIA Portal</span></div>
       <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">PID Control</span></div>
-      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">Ladder / FBD Programming</span></div>
     </div>
 
     <div class="skill-category">
@@ -1321,7 +1323,7 @@
   <div class="hud-divider"><div class="hud-divider-line"></div><div class="hud-divider-diamond"></div><div class="hud-divider-line"></div></div>
   <div class="project-intro reveal">
     <p>A selected engineering log spanning intelligent robotics, autonomous systems, simulation, and embedded control.</p>
-    <span class="project-count" id="project-count">07 SYSTEMS LOGGED</span>
+    <span class="project-count" id="project-count">08 SYSTEMS LOGGED</span>
   </div>
   <div class="project-filters" aria-label="Filter technical projects">
     <button class="filter-btn is-active" type="button" data-filter="all">All systems</button>
@@ -1333,8 +1335,27 @@
 
     <div class="project-card reveal" data-category="robotics simulation">
       <div class="project-header">
+        <div class="project-title">robo-data-engine — Cross-Embodiment Robot Data Collection Pipeline</div>
+        <div class="project-date">07/2026 – PRESENT</div>
+      </div>
+      <div class="project-sub">ROS2 · MUJOCO · MCAP · PYARROW</div>
+      <div class="project-body">
+        <ul>
+          <li>Built a universal multi-modal data collection pipeline in ROS2 Jazzy and MuJoCo 3.10; implemented a multi-threaded executor with MutuallyExclusiveCallbackGroup isolating physics (~470 Hz) from camera rendering (~20 Hz), and a 3-way ApproximateTimeSynchronizer for sub-millisecond sensor alignment.</li>
+          <li>Proved embodiment-agnostic design across a UR5e arm (6-DOF joint-space, wrist camera, position actuators) and Skydio X2 drone (7-DOF free-body state, PID hover controller, differential thrust) — same recording command, same export script, same parquet schema across both robots.</li>
+          <li>Developed an auto-detecting export script that reads bag topic metadata to identify embodiment and writes unified lerobot-compatible parquet datasets (timestamp_ns, embodiment, joint_positions, joint_commands) with per-episode MP4 video output.</li>
+        </ul>
+      </div>
+      <div class="project-tech">
+        <span class="tech-chip">ROS2 Jazzy</span><span class="tech-chip">MuJoCo 3.10</span><span class="tech-chip">MCAP</span><span class="tech-chip">PyArrow</span><span class="tech-chip">Parquet</span><span class="tech-chip">Multi-Modal Data</span><span class="tech-chip">UR5e</span><span class="tech-chip">Skydio X2</span>
+      </div>
+      <a href="https://github.com/nihalseth0506/robo-data-engine" class="project-link">▸ GitHub: robo-data-engine</a>
+    </div>
+
+    <div class="project-card reveal" data-category="robotics simulation">
+      <div class="project-header">
         <div class="project-title">Project FRANK — Franka Reinforcement &amp; Autonomy via Neural Kinematics</div>
-        <div class="project-date">06/2026 – PRESENT</div>
+        <div class="project-date">06/2026 – 07/2026</div>
       </div>
       <div class="project-sub">MuJoCo · PPO · Gymnasium · YOLOv8 · OpenCV · PyTorch · Stable-Baselines3</div>
       <div class="project-body">
@@ -1353,7 +1374,7 @@
     <div class="project-card reveal" data-category="robotics embedded">
       <div class="project-header">
         <div class="project-title">Vision-Guided Pick-and-Place &amp; Industrial Monitoring System</div>
-        <div class="project-date">04/2026 – PRESENT</div>
+        <div class="project-date">04/2026 – 06/2026</div>
       </div>
       <div class="project-sub">HOCHSCHULE SCHMALKALDEN, GERMANY</div>
       <div class="project-body">
@@ -1559,7 +1580,7 @@
       <div class="training-card">
         <div style="font-family:'Orbitron',monospace; font-size:0.82rem; font-weight:700; color:var(--text-bright); margin-bottom:0.4rem; letter-spacing:0.05em;">SUAS PREMIER – Automation, PLC &amp; Industry Training</div>
         <div style="font-family:'Share Tech Mono',monospace; font-size:0.68rem; color:var(--green); letter-spacing:0.1em; margin-bottom:0.75rem;">Hochschule Schmalkalden · 05/2025 – 10/2025 · Micro-Credential</div>
-        <div style="font-size:0.88rem; font-weight:300; color:var(--text); line-height:1.6;">Hands-on training in electronics, microcontrollers (ESP32, Arduino), and PID-based control. Completed Siemens TIA Portal PLC training including ladder/FBD programming, HMI development, simulation, and hardware deployment.</div>
+        <div style="font-size:0.88rem; font-weight:300; color:var(--text); line-height:1.6;">Hands-on training in electronics, microcontrollers (ESP32, Arduino), and PID-based control. Completed Siemens TIA Portal PLC training including HMI development, simulation, and hardware deployment.</div>
       </div>
 
       <div class="training-card">
